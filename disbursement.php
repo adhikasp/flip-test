@@ -8,10 +8,17 @@ class DisbursementApplication {
     private $flip;
 
     function __construct() {
+        $this->read_env();
         $FLIP_SECRET = getenv("FLIP_SECRET");
 
         $this->db = new DisbursementDatabase(true);
         $this->flip = new FlipClient($FLIP_SECRET);
+    }
+
+    private function read_env() {
+        if(file_exists('./env.php')) {
+            include('./env.php');
+        }
     }
 
     function createDisbursementRequest($bankCode, $accountNumber, $amount, $remark) {
