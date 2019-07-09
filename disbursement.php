@@ -54,7 +54,28 @@ class FlipClient {
         }
     }
 
+    function checkDisbursementStatus($transactionId) {
+        $ch = curl_init();
+        curl_setopt_array($ch, $this->mergeCurlOpt(array(
+            CURLOPT_URL => "https://nextar.flip.id/disburse" . $transactionId,
+            CURLOPT_CUSTOMREQUEST => "GET",
+        )));
+
+        $response = curl_exec($ch);
+        $err = curl_error($ch);
+
+        curl_close($ch);
+
+        if ($err) {
+            echo "cURL Error #:" . $err;
+            return $err;
+        } else {
+            return $response;
+        }
+    }
+
 }
 
 $flipClient = new FlipClient($FLIP_SECRET);
 echo $flipClient->postDisbursementRequest("bni", 1234, 1234, "testing");
+echo $flipClient->checkDisbursementStatus(123);
