@@ -39,28 +39,22 @@ class DisbursementDatabase {
                 'time_served' => "2019-05-21 09:26:11"),
         );
 
+        foreach ($dummy_transaction as $m) {
+            $this->insert_transaction($m['transaction_id'], $m['status'], $m['receipt'], $m['time_served']);
+        }
+    }
+
+    function insert_or_update_transaction($transaction_id, $status, $receipt, $time_served) {
         $insert = "INSERT OR REPLACE INTO disbursement (transaction_id, status, receipt, time_served) 
             VALUES (:transaction_id, :status, :receipt, :time_served)";
         $stmt = $this->sqlite_db->prepare($insert);
 
-        // Bind parameters to statement variables
         $stmt->bindParam(':transaction_id', $transaction_id);
         $stmt->bindParam(':status', $status);
         $stmt->bindParam(':receipt', $receipt);
         $stmt->bindParam(':time_served', $time_served);
 
-        // Loop thru all messages and execute prepared insert statement
-        foreach ($dummy_transaction as $m) {
-            // Set values to bound variables
-            $transaction_id = $m['transaction_id'];
-            $status = $m['status'];
-            $receipt = $m['receipt'];
-            $time_served = $m['time_served'];
-
-            // Execute statement
-            $stmt->execute();
-        }
-
+        $stmt->execute();
     }
 
 }
