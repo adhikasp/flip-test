@@ -49,7 +49,7 @@ class FlipClient {
             echo "cURL Error #:" . $err;
             return $err;
         } else {
-            return $response;
+            return json_decode($response);
         }
     }
 
@@ -69,7 +69,7 @@ class FlipClient {
             echo "cURL Error #:" . $err;
             return $err;
         } else {
-            return $response;
+            return json_decode($response);
         }
     }
 
