@@ -2,10 +2,30 @@
 require_once('FlipClient.php');
 require_once('DisbursementDatabase.php');
 
-$FLIP_SECRET = getenv("FLIP_SECRET");
+class DisbursementApplication {
 
-$flip_client = new FlipClient($FLIP_SECRET);
-echo $flip_client->postDisbursementRequest("bni", 1234, 1234, "testing");
-echo $flip_client->checkDisbursementStatus(123);
+    private $db;
+    private $flip;
 
-$database = new DisbursementDatabase(true);
+    function __construct() {
+        $FLIP_SECRET = getenv("FLIP_SECRET");
+
+        $this->db = new DisbursementDatabase(true);
+        $this->flip = new FlipClient($FLIP_SECRET);
+    }
+
+    function createDisbursementRequest($bankCode, $accountNumber, $amount, $remark) {
+        $this->flip->postDisbursementRequest($bankCode, $accountNumber, $amount, $remark);
+        // TODO save to db
+    }
+
+    function checkDisbursementStatus($transactionId) {
+        $this->flip->checkDisbursementStatus($transactionId);
+        // TODO update DB
+    }
+
+}
+
+$app = new DisbursementApplication();
+$app->createDisbursementRequest("bni", 1234, 1234, "testing");
+$app->checkDisbursementStatus(123);
