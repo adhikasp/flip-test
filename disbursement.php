@@ -17,5 +17,5 @@ print('Transaction id: ${transaction_id}');
 print('==================================');
 
 print('Checking status');
-$isSuccess = $app->checkDisbursementStatus(123);
+$isSuccess = $app->checkDisbursementStatus($transaction_id);
 print('Is completed : ' . $isSuccess);
