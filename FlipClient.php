@@ -56,7 +56,7 @@ class FlipClient {
     function checkDisbursementStatus($transactionId) {
         $ch = curl_init();
         curl_setopt_array($ch, $this->mergeCurlOpt(array(
-            CURLOPT_URL => "https://nextar.flip.id/disburse" . $transactionId,
+            CURLOPT_URL => "https://nextar.flip.id/disburse/" . $transactionId,
             CURLOPT_CUSTOMREQUEST => "GET",
         )));
 
